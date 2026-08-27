@@ -25,5 +25,6 @@ public class PollResponse {
     private boolean hasVoted;
     private int likesCount;
     private int commentsCount;
+    private int viewCount;
     private boolean hasLiked;
 }

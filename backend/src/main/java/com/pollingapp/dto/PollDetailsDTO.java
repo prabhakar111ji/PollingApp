@@ -25,6 +25,7 @@ public class PollDetailsDTO {
     private boolean hasVoted;
     private int likesCount;
     private int commentsCount;
+    private int viewCount;
     private boolean hasLiked;
     private List<CommentDTO> comments;
 }

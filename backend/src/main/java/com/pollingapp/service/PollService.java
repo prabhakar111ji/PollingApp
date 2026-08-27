@@ -88,6 +88,7 @@ public class PollService {
                 .hasVoted(hasVoted)
                 .likesCount(likeRepository.countByPollId(poll.getId()))
                 .commentsCount(commentRepository.countByPollId(poll.getId()))
+                .viewCount(poll.getViewCount())
                 .hasLiked(hasLiked)
                 .build();
     }
@@ -135,10 +136,14 @@ public class PollService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public PollDetailsDTO getPollById(Long id) {
         User currentUser = getCurrentUserOrNull();
         Poll poll = pollRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Poll not found with id: " + id));
+
+        // Increment view count
+        poll.setViewCount(poll.getViewCount() + 1);
 
         Long selectedOptionId = null;
         boolean hasVoted = false;
@@ -177,6 +182,7 @@ public class PollService {
                 .hasVoted(hasVoted)
                 .likesCount(likeRepository.countByPollId(poll.getId()))
                 .commentsCount(commentRepository.countByPollId(poll.getId()))
+                .viewCount(poll.getViewCount())
                 .hasLiked(hasLiked)
                 .comments(comments)
                 .build();

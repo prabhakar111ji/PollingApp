@@ -32,6 +32,10 @@ public class Poll {
     @Builder.Default
     private Integer totalVoteCount = 0;
 
+    @Column(nullable = false)
+    @Builder.Default
+    private Integer viewCount = 0;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

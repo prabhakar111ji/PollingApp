@@ -266,6 +266,13 @@ const PollCard = ({ poll, onUpdate, onDelete, showDelete = false }) => {
             <Typography variant="body2" color="text.secondary">
               {currentPoll.totalVoteCount} votes
             </Typography>
+
+            <Tooltip title="View Count">
+              <VisibilityIcon sx={{ color: '#9E9EB8', fontSize: 20 }} />
+            </Tooltip>
+            <Typography variant="body2" color="text.secondary">
+              {currentPoll.viewCount} views
+            </Typography>
           </Box>
 
           <Box sx={{ display: 'flex', gap: 1 }}>

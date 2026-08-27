@@ -25,6 +25,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import HowToVoteIcon from '@mui/icons-material/HowToVote';
 import PersonIcon from '@mui/icons-material/Person';
 import SendIcon from '@mui/icons-material/Send';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useSnackbar } from 'notistack';
 import { getPollById, votePoll, toggleLike, addComment } from '../services/pollService';
 import { isAuthenticated } from '../utils/auth';
@@ -304,6 +305,14 @@ const PollDetails = () => {
               <HowToVoteIcon sx={{ color: '#9E9EB8', fontSize: 20 }} />
               <Typography variant="body2" color="text.secondary">
                 {poll.totalVoteCount} total votes
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+              <Tooltip title="View Count">
+                <VisibilityIcon sx={{ color: '#9E9EB8', fontSize: 20 }} />
+              </Tooltip>
+              <Typography variant="body2" color="text.secondary">
+                {poll.viewCount} views
               </Typography>
             </Box>
           </Box>
