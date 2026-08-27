@@ -35,6 +35,19 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                                "/",
+                                "/index.html",
+                                "/assets/**",
+                                "/vite.svg",
+                                "/favicon.ico",
+                                "/register",
+                                "/login",
+                                "/dashboard",
+                                "/poll/**",
+                                "/create-poll",
+                                "/my-polls"
+                        ).permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/health").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
