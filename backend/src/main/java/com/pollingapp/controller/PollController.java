@@ -29,7 +29,7 @@ public class PollController {
         return ResponseEntity.ok(pollService.getAllPolls());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id:\\d+}")
     public ResponseEntity<PollDetailsDTO> getPollById(@PathVariable Long id) {
         return ResponseEntity.ok(pollService.getPollById(id));
     }

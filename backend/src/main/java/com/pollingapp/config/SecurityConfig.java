@@ -38,7 +38,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/health").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/user/poll", "/api/user/poll/{id}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/user/poll", "/api/user/poll/{id:\\d+}").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

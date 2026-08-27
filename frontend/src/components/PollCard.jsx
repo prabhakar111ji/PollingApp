@@ -253,7 +253,11 @@ const PollCard = ({ poll, onUpdate, onDelete, showDelete = false }) => {
               {currentPoll.likesCount}
             </Typography>
 
-            <CommentIcon sx={{ color: '#9E9EB8', fontSize: 20 }} />
+            <Tooltip title="View Comments">
+              <IconButton onClick={() => navigate(`/poll/${currentPoll.id}`)} size="small">
+                <CommentIcon sx={{ color: '#9E9EB8', fontSize: 20 }} />
+              </IconButton>
+            </Tooltip>
             <Typography variant="body2" color="text.secondary">
               {currentPoll.commentsCount}
             </Typography>
