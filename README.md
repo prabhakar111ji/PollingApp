@@ -137,29 +137,6 @@ Open: **http://localhost:5173**
 
 ---
 
-## 🧪 Testing
-
-### Manual Test Checklist
-
-1. ✅ Open http://localhost:5173
-2. ✅ Register user: `test@test.com` / `password123`
-3. ✅ See success notification → redirected to login
-4. ✅ Login with same credentials
-5. ✅ See dashboard (empty initially)
-6. ✅ Navigate to "Create Poll"
-7. ✅ Create a poll with 3 options, future expiration
-8. ✅ See success → redirected to dashboard
-9. ✅ See your poll on dashboard
-10. ✅ Vote on the poll → See results with percentages
-11. ✅ Try voting again → See error (duplicate)
-12. ✅ Like the poll → Like count updates
-13. ✅ Click "View Details" → See poll details page (view count should increment)
-14. ✅ Add a comment → Comment appears
-15. ✅ Like again → Unlike (toggle)
-16. ✅ Navigate to "My Polls"
-17. ✅ Delete the poll → Confirmation dialog → Poll removed
-
----
 
 ## 🌐 Deployment (Render)
 
@@ -199,27 +176,4 @@ Ensure all your code is pushed to your GitHub repository.
 
 Render will now build your frontend and backend together and deploy them to a single URL. Both your React UI and Spring Boot API will be hosted on the same link seamlessly.
 
----
 
-## 🎓 Interview Explanation
-
-### Architecture
-> "This is a full-stack polling application with a React frontend embedded into a Spring Boot backend for a monolithic deployment. The backend serves the static React files on standard routes, while exposing the REST API on the `/api` path. It uses Spring Data JPA to communicate with a managed PostgreSQL database on Neon. Authentication is stateless using JWT tokens."
-
-### JWT Authentication Flow
-> "On login, the backend validates credentials against BCrypt-hashed passwords, generates a JWT with the user's email as subject and configurable expiration, and returns it. The frontend stores the JWT and attaches it as a Bearer token on every API request via an Axios interceptor. The backend has a JWT authentication filter that intercepts every request, extracts and validates the token, and sets the SecurityContext."
-
-### Voting Flow
-> "When a user votes: (1) authenticate via JWT, (2) find the poll and verify it exists, (3) find the option and verify it belongs to that poll, (4) check the poll hasn't expired, (5) check the user hasn't already voted via a unique constraint on user_id+poll_id, (6) create the vote record, (7) increment option vote count and poll total vote count, (8) all within a @Transactional method for atomicity."
-
-### Database Relationships
-> "Users have one-to-many relationships with polls, votes, likes, and comments. Polls have one-to-many with options, votes, likes, and comments. Votes have a unique constraint on (user_id, poll_id) to prevent duplicate voting at the database level. Likes have the same constraint for duplicate prevention."
-
-### How Duplicate Voting is Prevented
-> "Three layers: (1) Frontend disables the vote button after voting, (2) Backend service checks `voteRepository.existsByUserIdAndPollId()` before creating a vote, (3) Database has a unique constraint on (user_id, poll_id) as the ultimate safety net."
-
-### How Expiration Works
-> "Each poll has an `expiredAt` timestamp. The `Poll.isExpired()` method compares it against the current time. The backend rejects votes on expired polls with a 400 error. The frontend shows results instead of voting controls for expired polls."
-
-### Monolithic Deployment Architecture
-> "To simplify deployment and avoid CORS issues, I configured a multi-stage Dockerfile. Stage 1 uses Node.js to build the Vite React app into static files. Stage 2 uses Maven to copy those static files into Spring Boot's `/static` directory and packages the JAR. Stage 3 runs the JAR. This allows Render to host the entire full-stack application inside a single Free Tier container."
