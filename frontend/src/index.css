@@ -1,0 +1,77 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #0A0E1A;
+  color: #E8E8F0;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #131833;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #6C63FF;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8B83FF;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Subtle gradient animation for page background */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.page-container {
+  min-height: calc(100vh - 64px);
+  padding: 32px 16px;
+  background: linear-gradient(135deg, #0A0E1A 0%, #131833 50%, #0A0E1A 100%);
+  background-size: 200% 200%;
+  animation: gradientShift 15s ease infinite;
+}
+
+/* Glassmorphism card style */
+.glass-card {
+  background: rgba(19, 24, 51, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(108, 99, 255, 0.15);
+  border-radius: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(108, 99, 255, 0.15);
+}
