@@ -48,6 +48,13 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- PostgreSQL (For Free Tier Deployments like Neon / Render) -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
         <!-- H2 for testing and local dev -->
         <dependency>
             <groupId>com.h2database</groupId>
