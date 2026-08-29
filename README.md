@@ -1,10 +1,14 @@
 # 🗳️ Polling App — Full-Stack Polling & Voting Platform
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Render-556B2F?style=for-the-badge&logo=render&logoColor=white)](https://pollingapp-c178.onrender.com/)
+
 [![React](https://img.shields.io/badge/Frontend-React%2018%20%7C%20Vite%205-61DAFB?logo=react&logoColor=black)](https://react.dev/)
 [![Spring Boot](https://img.shields.io/badge/Backend-Spring%20Boot%203.2-6DB33F?logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
 [![Security](https://img.shields.io/badge/Auth-JWT%20%2B%20Spring%20Security-red?logo=jsonwebtokens&logoColor=white)](https://jwt.io/)
 [![Database](https://img.shields.io/badge/Database-PostgreSQL%20%7C%20MySQL%20%7C%20H2-336791?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![Deployment](https://img.shields.io/badge/Deploy-Docker%20%7C%20Render%20%7C%20Vercel-black?logo=render&logoColor=white)](https://render.com/)
+
+> 🚀 **Live Demo:** [https://pollingapp-c178.onrender.com/](https://pollingapp-c178.onrender.com/)
 
 A modern full-stack polling web application featuring JWT authentication, real-time voting, dynamic result visualization, comments, likes, view counting, and a fully responsive Material UI design.
 
