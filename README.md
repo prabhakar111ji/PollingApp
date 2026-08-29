@@ -238,12 +238,15 @@ The full REST API specification, including request/response examples and authent
 ### Key Endpoint Summary:
 - `POST /api/auth/signup` — Register a new account
 - `POST /api/auth/login` — Login and receive JWT token
-- `GET /api/polls` — Fetch paginated/filtered list of active polls
-- `POST /api/polls` — Create a new poll (Authenticated)
-- `POST /api/polls/{id}/vote` — Cast a vote on a poll option (Authenticated)
-- `POST /api/polls/{id}/comments` — Add a comment to a poll (Authenticated)
-- `POST /api/polls/{id}/like` — Toggle like on a poll (Authenticated)
-- `GET /api/polls/my-polls` — Retrieve polls created by current user (Authenticated)
+- `GET /api/user/poll` — Fetch all polls (sorted by newest)
+- `POST /api/user/poll` — Create a new poll (Authenticated)
+- `GET /api/user/poll/{id}` — Get single poll details with comments
+- `GET /api/user/poll/my` — Retrieve polls created by the logged-in user (Authenticated)
+- `DELETE /api/user/poll/{id}` — Delete a poll by ID (Owner only)
+- `POST /api/user/poll/vote` — Cast a vote on a poll option (Authenticated)
+- `POST /api/user/poll/{id}/like` — Toggle like/unlike on a poll (Authenticated)
+- `POST /api/user/poll/comment` — Add a comment to a poll (Authenticated)
+- `GET /api/health` — Backend health check endpoint
 
 ---
 
