@@ -5,6 +5,8 @@ import com.pollingapp.entity.*;
 import com.pollingapp.exception.*;
 import com.pollingapp.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +26,7 @@ public class PollService {
     private final LikeRepository likeRepository;
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
+    private final AiService aiService;
 
     // ─── Helpers ───────────────────────────────────────────────
 
@@ -134,6 +137,12 @@ public class PollService {
         return pollRepository.findAllByOrderByPostedDateDesc().stream()
                 .map(poll -> mapToPollResponse(poll, currentUser))
                 .collect(Collectors.toList());
+    }
+
+    public Page<PollResponse> getAllPollsPaginated(Pageable pageable) {
+        User currentUser = getCurrentUserOrNull();
+        return pollRepository.findAllByOrderByPostedDateDesc(pageable)
+                .map(poll -> mapToPollResponse(poll, currentUser));
     }
 
     @Transactional
@@ -304,6 +313,18 @@ public class PollService {
                 .createdAt(saved.getCreatedAt())
                 .authorName(user.getFirstName() + " " + user.getLastName())
                 .authorId(user.getId())
+                .build();
+    }
+
+    // ─── AI Summary ──────────────────────────────────────────────
+
+    public AiSummaryResponse getAiSummary(Long pollId) {
+        PollDetailsDTO poll = getPollById(pollId);
+        String summary = aiService.generatePollSummary(poll);
+        return AiSummaryResponse.builder()
+                .summary(summary)
+                .aiGenerated(aiService.isConfigured())
+                .model(aiService.isConfigured() ? "gpt-3.5-turbo" : "rule-based")
                 .build();
     }
 }

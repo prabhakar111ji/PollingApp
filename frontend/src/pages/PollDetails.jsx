@@ -26,8 +26,9 @@ import HowToVoteIcon from '@mui/icons-material/HowToVote';
 import PersonIcon from '@mui/icons-material/Person';
 import SendIcon from '@mui/icons-material/Send';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import { useSnackbar } from 'notistack';
-import { getPollById, votePoll, toggleLike, addComment } from '../services/pollService';
+import { getPollById, votePoll, toggleLike, addComment, getAiSummary } from '../services/pollService';
 import { isAuthenticated } from '../utils/auth';
 
 const PollDetails = () => {
@@ -40,6 +41,8 @@ const PollDetails = () => {
   const [liking, setLiking] = useState(false);
   const [commentText, setCommentText] = useState('');
   const [submittingComment, setSubmittingComment] = useState(false);
+  const [aiSummary, setAiSummary] = useState(null);
+  const [aiLoading, setAiLoading] = useState(false);
 
   const fetchPoll = async () => {
     try {
@@ -127,6 +130,18 @@ const PollDetails = () => {
       enqueueSnackbar(msg, { variant: 'error' });
     } finally {
       setSubmittingComment(false);
+    }
+  };
+
+  const handleGenerateSummary = async () => {
+    setAiLoading(true);
+    try {
+      const res = await getAiSummary(poll.id);
+      setAiSummary(res.data);
+    } catch (err) {
+      enqueueSnackbar('Failed to generate AI summary', { variant: 'error' });
+    } finally {
+      setAiLoading(false);
     }
   };
 
@@ -317,6 +332,55 @@ const PollDetails = () => {
             </Box>
           </Box>
         </Paper>
+
+        {/* AI Summary Section */}
+        {(showResults || poll.commentsCount > 0) && (
+          <Paper elevation={0} className="glass-card" sx={{ p: 4, mb: 3 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: aiSummary ? 2 : 0 }}>
+              <Typography variant="h6" sx={{ fontWeight: 600, color: '#E8E8F0', display: 'flex', alignItems: 'center', gap: 1 }}>
+                <AutoAwesomeIcon sx={{ color: '#FF6584' }} />
+                AI Summary
+              </Typography>
+              {!aiSummary && (
+                <Button
+                  variant="outlined"
+                  size="small"
+                  onClick={handleGenerateSummary}
+                  disabled={aiLoading}
+                  startIcon={aiLoading ? <CircularProgress size={16} color="inherit" /> : <AutoAwesomeIcon />}
+                  sx={{
+                    borderColor: '#FF6584',
+                    color: '#FF6584',
+                    '&:hover': {
+                      borderColor: '#FF8FA3',
+                      backgroundColor: 'rgba(255, 101, 132, 0.1)'
+                    }
+                  }}
+                >
+                  Generate
+                </Button>
+              )}
+            </Box>
+
+            {aiSummary && (
+              <Box sx={{ 
+                p: 2, 
+                borderRadius: 2, 
+                backgroundColor: 'rgba(255, 101, 132, 0.05)',
+                border: '1px solid rgba(255, 101, 132, 0.1)'
+              }}>
+                <Typography variant="body1" sx={{ color: '#E8E8F0', lineHeight: 1.6, fontStyle: 'italic' }}>
+                  "{aiSummary.summary}"
+                </Typography>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1 }}>
+                  <Typography variant="caption" color="text.secondary">
+                    Powered by {aiSummary.model}
+                  </Typography>
+                </Box>
+              </Box>
+            )}
+          </Paper>
+        )}
 
         {/* Comments Section */}
         <Paper elevation={0} className="glass-card" sx={{ p: 4 }}>
